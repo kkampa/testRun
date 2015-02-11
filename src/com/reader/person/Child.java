@@ -1,6 +1,19 @@
 package com.reader.person;
 
 public class Child {
+	private String division;
+	private String cert_num;
+	private String last_name;
+	private String first_name;
+	private String birth_date;
+	private boolean student;
+	private String sex;
+	private boolean smoker;
+	private String relation;
+	private String school;
+	private String enrolfrom;
+	private String enrolto;
+	private boolean handicap;
 	private String employeenum;
 	private String childfirstname;
 	private String childlastname;
