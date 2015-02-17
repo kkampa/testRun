@@ -1,6 +1,7 @@
 package com.reader.person;
 
 public class Child {
+    private String depType;
     private String certNum;
     private String childLastName;
     private String childFirstName;
@@ -11,9 +12,10 @@ public class Child {
 
 	
 		        
-    public Child(String certNum, String childFirstName, String childLastName, 
+    public Child(String depType, String certNum, String childFirstName, String childLastName, 
                   String birthDate, String sex, String relation, String school) {
-              this.certNum = certNum;
+        this.depType = depType;      
+        this.certNum = certNum;
               this.childFirstName = childFirstName;
               this.childLastName = childLastName;
               this.birthDate = birthDate;
@@ -22,6 +24,14 @@ public class Child {
               this.school = school;
               
 	      
+    }
+
+    public String getDepType() {
+        return depType;
+    }
+
+    public void setDepType(String depType) {
+        this.depType = depType;
     }
 
     public String getCertNum() {
