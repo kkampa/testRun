@@ -21,7 +21,7 @@ public class PersonReader {
 		 List<Child> childList = new ArrayList<Child>();
 		 try {
 			 convertCsvToJavaParent("Employee.csv", personList);
-			 convertCsvToJavaDependent("Dependent.csv", childList);
+			 convertCsvToJavaDependent("Dependent2.csv", childList);
 			 
 			 //printChildList(childList);
 			 combineChildParent(personList, childList);
