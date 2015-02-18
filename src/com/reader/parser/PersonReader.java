@@ -20,9 +20,10 @@ public class PersonReader {
 		 List<Person> personList = new ArrayList<Person>();
 		 List<Child> childList = new ArrayList<Child>();
 		 try {
-			 convertCsvToJavaParent("ERROR-EMP.csv", personList);
-			 convertCsvToJavaDependent("DEPENDNT0212.csv", childList);
-			 
+			 //convertCsvToJavaParent("ERROR-EMP.csv", personList);
+			 //convertCsvToJavaDependent("ERROR-DEP.csv", childList);
+			 convertCsvToJavaParent("EMPLOYEE-0212.csv", personList);
+			 convertCsvToJavaDependent("DEPENDNT-0212.csv", childList);
 			 //printChildList(childList);
 			 combineChildParent(personList, childList);
 			 //printPersonList(personList); 
@@ -45,16 +46,21 @@ public class PersonReader {
                 for (int i = 0; i < parentListLength; i++) {
                     System.out.println("certnum" + personList.get(i).getCertNum() + " " + personList.get(i).getSalary() 
                                 + " " + personList.get(i).getLastName());
-                    writer.append(personList.get(i).getDivision() + ",");
-                    writer.append(personList.get(i).getCertNum() + ",,");
-                    writer.append(getDOBPart(personList.get(i).getBirthDate(),2) + ",,,,"); //upto maritalstatusseparated
-                    writer.append(getMonth(getDOBPart(personList.get(i).getEmployeeDate(),0)) + ",");
+                    writer.append(checkNull(personList.get(i).getDivision()) + ",");
+                    writer.append(checkNull(personList.get(i).getCertNum()) + ",,");
+                    //System.out.println("1" + personList.get(i).getBirthDate());
+                    writer.append(checkNull(getDOBPart(personList.get(i).getBirthDate(),2) + ",,,,")); //upto maritalstatusseparated
+                    //System.out.println("2" + personList.get(i).getEmployeeDate());
+                    writer.append(checkNull(getMonth(getDOBPart(personList.get(i).getEmployeeDate(),0))) + ",");
                     writer.append(checkNull(personList.get(i).getLastNameChild4()) + ",,,,"); //upto rehireyear
                     writer.append(checkNull(personList.get(i).getFirstNameChild3()) + ",,,"); //upto partialwaverdependantdentalcare
                     writer.append(checkNull(personList.get(i).getNameOfSchoolChild3()) + ",,");
                     writer.append("1,,"); //english,is_employer
+                    //System.out.println("3" + personList.get(i).getBirtDateChild2());
                     writer.append(checkNull(getMonth(getDOBPart(personList.get(i).getBirtDateChild2(),0))) + ",");
+                    //System.out.println("4" + personList.get(i).getBirtDateChild3());
                     writer.append(checkNull(getDOBPart(personList.get(i).getBirtDateChild3(),1)) + ",");
+                    //System.out.println("5" + personList.get(i).getBirtDateChild4());
                     writer.append(checkNull(getDOBPart(personList.get(i).getBirtDateChild4(),1)) + ",");
                     writer.append(checkNull(personList.get(i).getClassCode()) + ",");
                     writer.append(checkNull(personList.get(i).getSalary()) + ",,,"); //upto spouseplanyes
@@ -62,54 +68,74 @@ public class PersonReader {
                     writer.append(checkNull(getMarriedStatus("MaritalStatusDivorced",personList.get(i).getMaritalStatus())) + ",,");
                     writer.append(checkNull(personList.get(i).getSexChild2()) + ",");
                     writer.append(checkNull(personList.get(i).getRelationshipChild3()) + ",");
+                    //System.out.println("6" + personList.get(i).getBirtDateChild1());
                     writer.append(checkNull(getMonth(getDOBPart(personList.get(i).getBirtDateChild1(),0))) + ",");
-                    writer.append(getDOBPart(personList.get(i).getEmployeeDate(),1) + ",");
-                    writer.append(getDOBPart(personList.get(i).getCoverageDate(),0) + ",0,");
-                    writer.append(getMonth(getDOBPart(personList.get(i).getBirthDate(),0)) + ",");
+                    //System.out.println("7" + personList.get(i).getEmployeeDate());
+                    writer.append(checkNull(getDOBPart(personList.get(i).getEmployeeDate(),1)) + ",");
+                    //System.out.println("1" + personList.get(i).getCoverageDate());
+                    writer.append(checkNull(getDOBPart(personList.get(i).getCoverageDate(),0)) + ",0,");
+                    //System.out.println("8" + personList.get(i).getBirthDate());
+                    writer.append(checkNull(getMonth(getDOBPart(personList.get(i).getBirthDate(),0))) + ",");
                     writer.append(checkNull(personList.get(i).getRelation()) + ","); //beneficiaryRelation
                     writer.append(checkNull(personList.get(i).getNameOfSchoolChild2()) + ",");
                     writer.append(checkNull(personList.get(i).getRelationshipChild4()) + ",,"); //hours per week
+                    //System.out.println("9" + personList.get(i).getBirtDateChild3());
                     writer.append(checkNull(getMonth(getDOBPart(personList.get(i).getBirtDateChild3(),0))) + ",");
                     writer.append(checkNull(personList.get(i).getSexChild4()) + ",");
                     writer.append(checkNull(personList.get(i).getFirstName()) + ",,,,"); //up to dental
                     writer.append(checkNull(getMarriedStatus("EmployeeGenderFeMale",personList.get(i).getSex())) + ",");
                     writer.append(checkNull(getMarriedStatus("MaritalStatusSingle",personList.get(i).getMaritalStatus())) + ",");
+                    //System.out.println("10" + personList.get(i).getBirtDateChild2());
                     writer.append(checkNull(getDOBPart(personList.get(i).getBirtDateChild2(),1)) + ",");
                     writer.append(checkNull(personList.get(i).getLastName()) + ",");
                     writer.append(checkNull(personList.get(i).getFirstNameSpouse()) + ",,");
+                    //System.out.println("11" + personList.get(i).getBirthDate());
                     writer.append(checkNull(getDOBPart(personList.get(i).getBirthDate(),1)) + ",,");
                     writer.append(checkNull(personList.get(i).getBeneficiary()) + ",,");
                     writer.append(checkNull(personList.get(i).getFirstNameChild1()) + ",,"); //rehire
                     writer.append(checkNull(getMarriedStatus("PartialWaverExtendedHealthCare",personList.get(i).getMaritalStatus())) + ",");
                     writer.append(checkNull(personList.get(i).getLastNameSpouse()) + ",");
-                    writer.append(getDOBPart(personList.get(i).getCoverageDate(),2) + ",");
+                    //System.out.println("12" + personList.get(i).getCoverageDate());
+                    writer.append(checkNull(getDOBPart(personList.get(i).getCoverageDate(),2)) + ",");
                     writer.append(checkNull(getMarriedStatus("EmployeeGenderMale",personList.get(i).getSex())) + ",");
+                    //System.out.println("13" + personList.get(i).getBirtDateChild1());
                     writer.append(checkNull(getDOBPart(personList.get(i).getBirtDateChild1(),2)) + ",");
                     writer.append(checkNull(personList.get(i).getSexSpouse()) + ",,"); //confirmation code
                     writer.append(checkNull(personList.get(i).getFirstNameChild2()) + ",");
                     writer.append(checkNull(personList.get(i).getNameOfSchoolChild4()) + ",0,0,0,");
                     writer.append(checkNull(personList.get(i).getSexChild3()) + ",");
+                    //System.out.println("14" + personList.get(i).getBirtDateChild2());
                     writer.append(checkNull(getDOBPart(personList.get(i).getBirtDateChild2(),2)) + ","); 
                     writer.append(checkNull(getMarriedStatus("PartialWaverDentalCare",personList.get(i).getMaritalStatus())) + ",");
-                    writer.append(getMonth(getDOBPart(personList.get(i).getBirtDateSpouse(),0)) + ",,"); //employeecity
+                    //System.out.println("14.5" + personList.get(i).getBirtDateSpouse());
+                    writer.append(checkNull(getMonth(getDOBPart(personList.get(i).getBirtDateSpouse(),0))) + ",,"); //employeecity
+                    //System.out.println("15" + personList.get(i).getEmployeeDate());
                     writer.append(checkNull(getDOBPart(personList.get(i).getEmployeeDate(),2)) + ",,,"); //upto spouse no details
                     writer.append(checkNull(personList.get(i).getProvince()) + ",");
-                    writer.append(getMonth(getDOBPart(personList.get(i).getCoverageDate(),0)) + ",");
-                    writer.append(getDOBPart(personList.get(i).getBirtDateSpouse(),1) + ",1,,"); //annually,benef2
+                    //System.out.println("16" + personList.get(i).getCoverageDate());
+                    writer.append(checkNull(getMonth(getDOBPart(personList.get(i).getCoverageDate(),0))) + ",");
+                    //System.out.println("16.5" + personList.get(i).getBirtDateSpouse());
+                    writer.append(checkNull(getDOBPart(personList.get(i).getBirtDateSpouse(),1)) + ",1,,"); //annually,benef2
+                    //System.out.println("16.8");
                     writer.append(checkNull(personList.get(i).getSexChild1()) + ",,1,"); //visa,provincialcovered
+                    //System.out.println("17" + personList.get(i).getBirtDateChild4());
                     writer.append(checkNull(getDOBPart(personList.get(i).getBirtDateChild4(),2)) + ",,"); //initialchild3
+                    //System.out.println("17.5" + personList.get(i).getBirtDateSpouse());
                     writer.append(checkNull(getDOBPart(personList.get(i).getBirtDateSpouse(),2)) + ",,"); //postalcode
                     writer.append(checkNull(personList.get(i).getLastNameChild1()) + ",");
                     writer.append(checkNull(personList.get(i).getCertNum()) + ",");
+                    //System.out.println("18" + personList.get(i).getBirtDateChild1());
                     writer.append(checkNull(getDOBPart(personList.get(i).getBirtDateChild1(),1)) + ",");
                     writer.append(checkNull(personList.get(i).getOccupation()) + ",,,"); //partialwaiver
-                    writer.append(getMonth(getDOBPart(personList.get(i).getBirtDateChild4(),0)) + ",");
+                    //System.out.println("19" + personList.get(i).getBirtDateChild4());
+                    writer.append(checkNull(getMonth(getDOBPart(personList.get(i).getBirtDateChild4(),0))) + ",");
                     writer.append(checkNull(personList.get(i).getLastNameChild2()) + ",");
                     writer.append(checkNull(personList.get(i).getNameOfSchoolChild1()) + ",");
                     writer.append(checkNull(getMarriedStatus("MaritalStatusMarried",personList.get(i).getMaritalStatus())) + ",");
                     writer.append(checkNull(personList.get(i).getLastNameChild3()) + ",");
                     writer.append(checkNull(personList.get(i).getFirstNameChild4()) + ",,,"); //upto duplicateinsuranceyes
                     writer.append(checkNull(personList.get(i).getRelationshipChild2()) + ",,,,,"); //upto initialchild1
+                    //System.out.println("20" + personList.get(i).getBirtDateChild3());
                     writer.append(checkNull(getDOBPart(personList.get(i).getBirtDateChild3(),2)) + ",,,,,,,"); //upto beneficiary2             
                     writer.append('\n');
  
@@ -211,8 +237,13 @@ public class PersonReader {
              String part;
              String splitBy = "/"; 
              if(DOB!=null){
-                String[] brokenDOB = DOB.split(splitBy);
+                if(!DOB.equals("")){
+                 String[] brokenDOB = DOB.split(splitBy);
                 part = brokenDOB[splitter];
+                }
+                else {
+                    part = "";
+                }
              }
              else {
                  part = "";
@@ -309,12 +340,12 @@ public class PersonReader {
 		  String line = "";  
 		  String splitBy = ";";  
 		  //List<Person> personList = new ArrayList<Person>();  
-		  
+		  int myCount=0;
 		  try {  
 		  
 		   br = new BufferedReader(new FileReader(csvFileToRead));  
 		   while ((line = br.readLine()) != null) {  
-		  //System.out.println(line);
+		    myCount++;
 		    // split on comma(',')  
 		    String[] persons = line.split(splitBy);  
                     /*System.out.println(persons[1] + " " + 
@@ -333,11 +364,12 @@ public class PersonReader {
                             persons[18], persons[19], persons[22],
                             persons[23], persons[31], persons[35]);  
 	  
-		    // adding car objects to a list  
+		    
+                    // adding car objects to a list  
 		    personList.add(personObject);  
-		  
+		    
 		   }  
-		   		   
+		   System.out.println("Total employee count=" + myCount);		   
 		   //read in the dependents
 		   
 		   //combine the object into one
@@ -364,12 +396,12 @@ public class PersonReader {
 		  String line = "";  
 		  String splitBy = ";";  
 		  //List<Person> personList = new ArrayList<Person>();  
-		  
+		  int myCount=0;
 		  try {  
 		  
 		   br = new BufferedReader(new FileReader(csvFileToRead));  
 		   while ((line = br.readLine()) != null) {  
-		  
+		    myCount++;
 		    // split on comma(',')  
 		    String[] persons = line.split(splitBy);  
 		    /*System.out.println(persons[3] + " " + 
@@ -395,7 +427,8 @@ public class PersonReader {
 		    // adding car objects to a list  
 		    childList.add(childObject);  
 		  
-		   }  
+		   }
+                   System.out.println("Total dependent count=" + myCount);
 		   // print values stored in carList  
 		   //printPersonList(personList);  
 		   
