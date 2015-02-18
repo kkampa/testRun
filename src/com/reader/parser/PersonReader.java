@@ -20,8 +20,8 @@ public class PersonReader {
 		 List<Person> personList = new ArrayList<Person>();
 		 List<Child> childList = new ArrayList<Child>();
 		 try {
-			 convertCsvToJavaParent("Employee.csv", personList);
-			 convertCsvToJavaDependent("Dependent2.csv", childList);
+			 convertCsvToJavaParent("ERROR-EMP.csv", personList);
+			 convertCsvToJavaDependent("DEPENDNT0212.csv", childList);
 			 
 			 //printChildList(childList);
 			 combineChildParent(personList, childList);
@@ -43,7 +43,8 @@ public class PersonReader {
                 FileWriter writer = new FileWriter(csvFileName);
  
                 for (int i = 0; i < parentListLength; i++) {
-                    System.out.println("certnum" + personList.get(i).getCertNum() + " " + personList.get(i).getSalary());
+                    System.out.println("certnum" + personList.get(i).getCertNum() + " " + personList.get(i).getSalary() 
+                                + " " + personList.get(i).getLastName());
                     writer.append(personList.get(i).getDivision() + ",");
                     writer.append(personList.get(i).getCertNum() + ",,");
                     writer.append(getDOBPart(personList.get(i).getBirthDate(),2) + ",,,,"); //upto maritalstatusseparated
@@ -78,7 +79,8 @@ public class PersonReader {
                     writer.append(checkNull(personList.get(i).getFirstNameSpouse()) + ",,");
                     writer.append(checkNull(getDOBPart(personList.get(i).getBirthDate(),1)) + ",,");
                     writer.append(checkNull(personList.get(i).getBeneficiary()) + ",,");
-                    writer.append(checkNull(personList.get(i).getFirstNameChild1()) + ",,,");
+                    writer.append(checkNull(personList.get(i).getFirstNameChild1()) + ",,"); //rehire
+                    writer.append(checkNull(getMarriedStatus("PartialWaverExtendedHealthCare",personList.get(i).getMaritalStatus())) + ",");
                     writer.append(checkNull(personList.get(i).getLastNameSpouse()) + ",");
                     writer.append(getDOBPart(personList.get(i).getCoverageDate(),2) + ",");
                     writer.append(checkNull(getMarriedStatus("EmployeeGenderMale",personList.get(i).getSex())) + ",");
@@ -87,13 +89,14 @@ public class PersonReader {
                     writer.append(checkNull(personList.get(i).getFirstNameChild2()) + ",");
                     writer.append(checkNull(personList.get(i).getNameOfSchoolChild4()) + ",0,0,0,");
                     writer.append(checkNull(personList.get(i).getSexChild3()) + ",");
-                    writer.append(checkNull(getDOBPart(personList.get(i).getBirtDateChild2(),2)) + ",,"); //partialWaverDentlCare
+                    writer.append(checkNull(getDOBPart(personList.get(i).getBirtDateChild2(),2)) + ","); 
+                    writer.append(checkNull(getMarriedStatus("PartialWaverDentalCare",personList.get(i).getMaritalStatus())) + ",");
                     writer.append(getMonth(getDOBPart(personList.get(i).getBirtDateSpouse(),0)) + ",,"); //employeecity
                     writer.append(checkNull(getDOBPart(personList.get(i).getEmployeeDate(),2)) + ",,,"); //upto spouse no details
                     writer.append(checkNull(personList.get(i).getProvince()) + ",");
                     writer.append(getMonth(getDOBPart(personList.get(i).getCoverageDate(),0)) + ",");
                     writer.append(getDOBPart(personList.get(i).getBirtDateSpouse(),1) + ",1,,"); //annually,benef2
-                    writer.append(checkNull(personList.get(i).getSexChild1()) + ",,,"); //visa,provincialcovered
+                    writer.append(checkNull(personList.get(i).getSexChild1()) + ",,1,"); //visa,provincialcovered
                     writer.append(checkNull(getDOBPart(personList.get(i).getBirtDateChild4(),2)) + ",,"); //initialchild3
                     writer.append(checkNull(getDOBPart(personList.get(i).getBirtDateSpouse(),2)) + ",,"); //postalcode
                     writer.append(checkNull(personList.get(i).getLastNameChild1()) + ",");
@@ -124,7 +127,6 @@ public class PersonReader {
          
          private String getMarriedStatus(String fieldName, String fieldValue){
              String returnString = "0";
-             
              switch (fieldName){
                  case "MaritalStatusSingle":
                      if (fieldValue.equals("S")) {
@@ -139,10 +141,26 @@ public class PersonReader {
                          returnString = "1";
                      }
                      break;
-                 case "EmployeeGenderFemale":
+                 case "PartialWaverExtendedHealthCare":
+                     if (fieldValue.equals("P")){
+                         returnString = "1";
+                     }
+                     break;
+                  case "PartialWaverDentalCare":
+                     if (fieldValue.equals("P")){
+                         returnString = "1";
+                     }
+                     break;
+                 case "EmployeeGenderFeMale":
                      if (fieldValue.equals("F")){
                          returnString = "1";
                      }
+                     break;
+                 case "EmployeeGenderMale":
+                     if (fieldValue.equals("M")){
+                         returnString = "1";
+                     }
+                     break;
              }
              return returnString;
          }
