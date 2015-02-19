@@ -42,11 +42,86 @@ public class PersonReader {
              try
             {
                 FileWriter writer = new FileWriter(csvFileName);
- 
+                writer.append("FirstName,MiddleName,LastName,Email,Username,Password,EmployeeTypeId,Annually,");
+                writer.append("BenefName1,BenefName2,BenefRel1,BenefRel2,Class,CohabDate,DayDOBChild1,DayDOBChild2,DayDOBChild3,DayDOBChild4,");
+                writer.append("Dental,Dept,Dup,Dup,Dup,Dup,Dup,EffectiveDay,EffectiveMonth,EffectiveYear,EHC,Address,City,");
+                writer.append("EmpDOBDay,EmpDOBMonth,EmpDOBYear,EmpEarnings,GenderF,GenderM,Init,EmpNum,EmpOcc,PC,Prov,EmpDay,");
+                writer.append("EmpMon,EmpYear,Eng,FNChild1,FNChild2,FNChild3,FNChild4,French,Hourly,Hrs,Init1,Init2,Init3,Init4,");
+                writer.append("LNChild1,LNChild2,LNChild3,LNChild4,MSCL,MSD,MSM,MSS,MSSingle,MonthDOBChild1,MonthDOBChild2,MonthDOBChild3,MonthDOBChild4,");
+                writer.append("Monthly,Employer,NameSchool1,NameSchool2,NameSchool3,NameSchool4,NewEmp,PartialWavDent,PartDep,PartDep,PartWavEHC,");
+                writer.append("ProvNo,ProvYes,RehireDay,RehireYear,RehireMon,Reinstate,RelatChild1,RelatChild2,RelatChild3,RelatChild4,");
+                writer.append("SexCh1,SexCh2,SexCh3,SexCh4,Proc1,Proc2,SpDOBDay,SpFN,SPInit,SpLN,SpDOBMon,SpNoDet,SpPlanNo,SpPlanYes,SpSex,SpDOBYear,");
+                writer.append("Desig,VisaNo,VisaYes,Weekly,YearDOBCh1,YearDOBCh2,YearDOBCh3,YearDOBCh4");
+                writer.append('\n');
+                
                 for (int i = 0; i < parentListLength; i++) {
                     System.out.println("certnum" + personList.get(i).getCertNum() + " " + personList.get(i).getSalary() 
                                 + " " + personList.get(i).getLastName());
-                    writer.append(checkNull(personList.get(i).getDivision()) + ",");
+                    writer.append(checkNull(personList.get(i).getFirstName()) + ",,");                    
+                    writer.append(checkNull(personList.get(i).getLastName()) + ",,,,1,1,,,,,"); //up to benerelation2
+                    writer.append(checkNull(personList.get(i).getClassCode()) + ",,"); //cohab
+                    writer.append(checkNull(getDOBPart(personList.get(i).getBirtDateChild1(),1)) + ",");
+                    writer.append(checkNull(getDOBPart(personList.get(i).getBirtDateChild2(),1)) + ",");
+                    writer.append(checkNull(getDOBPart(personList.get(i).getBirtDateChild3(),1)) + ",");
+                    writer.append(checkNull(getDOBPart(personList.get(i).getBirtDateChild4(),1)) + ",");
+                    writer.append(checkNull(getMarriedStatus("PartialWaverExtendedHealthCare",personList.get(i).getMaritalStatus())) + ",");
+                    writer.append(checkNull(personList.get(i).getDivision()) + ",,,,,,"); //upto duplicate
+                    writer.append(checkNull(getDOBPart(personList.get(i).getCoverageDate(),1)) + ",");
+                    writer.append(checkNull(getMonth(getDOBPart(personList.get(i).getCoverageDate(),0))) + ",");
+                    writer.append(checkNull(getDOBPart(personList.get(i).getCoverageDate(),2)) + ",");
+                    writer.append(checkNull(getMarriedStatus("PartialWaverExtendedHealthCare",personList.get(i).getMaritalStatus())) + ",,,"); //upto city
+                    writer.append(checkNull(getDOBPart(personList.get(i).getBirthDate(),1)) + ",");
+                    writer.append(checkNull(getMonth(getDOBPart(personList.get(i).getBirthDate(),0))) + ",");
+                    writer.append(checkNull(getDOBPart(personList.get(i).getBirthDate(),2)) + ",");
+                    writer.append(checkNull(personList.get(i).getSalary()) + ",");
+                    writer.append(checkNull(getMarriedStatus("EmployeeGenderFeMale",personList.get(i).getSex())) + ",");
+                    writer.append(checkNull(getMarriedStatus("EmployeeGenderMale",personList.get(i).getSex())) + ",,");
+                    writer.append(checkNull(personList.get(i).getCertNum()) + ",");
+                    writer.append(checkNull(personList.get(i).getOccupation()) + ",,Ontario,"); //upto prov
+                    writer.append(checkNull(getDOBPart(personList.get(i).getEmployeeDate(),1)) + ",");
+                    writer.append(checkNull(getMonth(getDOBPart(personList.get(i).getEmployeeDate(),0))) + ",");
+                    writer.append(checkNull(getDOBPart(personList.get(i).getEmployeeDate(),2)) + ",1,");
+                    writer.append(checkNull(personList.get(i).getFirstNameChild1()) + ",");
+                    writer.append(checkNull(personList.get(i).getFirstNameChild2()) + ",");
+                    writer.append(checkNull(personList.get(i).getFirstNameChild3()) + ",");
+                    writer.append(checkNull(personList.get(i).getFirstNameChild4()) + ",0,0,40,,,,,"); //upto initial
+                    writer.append(checkNull(personList.get(i).getLastNameChild1()) + ",");
+                    writer.append(checkNull(personList.get(i).getLastNameChild2()) + ",");
+                    writer.append(checkNull(personList.get(i).getLastNameChild3()) + ",");
+                    writer.append(checkNull(personList.get(i).getLastNameChild4()) + ",,,"); //upto divorced
+                    writer.append(checkNull(getMarriedStatus("MaritalStatusMarried",personList.get(i).getMaritalStatus())) + ",,");
+                    writer.append(checkNull(getMarriedStatus("MaritalStatusSingle",personList.get(i).getMaritalStatus())) + ",");
+                    writer.append(checkNull(getMonth(getDOBPart(personList.get(i).getBirtDateChild1(),0))) + ",");
+                    writer.append(checkNull(getMonth(getDOBPart(personList.get(i).getBirtDateChild2(),0))) + ",");
+                    writer.append(checkNull(getMonth(getDOBPart(personList.get(i).getBirtDateChild3(),0))) + ",");
+                    writer.append(checkNull(getMonth(getDOBPart(personList.get(i).getBirtDateChild4(),0))) + ",0,BGM,");
+                    writer.append(checkNull(personList.get(i).getNameOfSchoolChild1()) + ",");
+                    writer.append(checkNull(personList.get(i).getNameOfSchoolChild2()) + ",");
+                    writer.append(checkNull(personList.get(i).getNameOfSchoolChild3()) + ",");
+                    writer.append(checkNull(personList.get(i).getNameOfSchoolChild4()) + ",,");
+                    writer.append(checkNull(getMarriedStatus("PartialWaverExtendedHealthCare",personList.get(i).getMaritalStatus())) + ",,,");
+                    writer.append(checkNull(getMarriedStatus("PartialWaverExtendedHealthCare",personList.get(i).getMaritalStatus())) + ",0,1,,,,,"); //upto reinstatement
+                    writer.append(checkNull(personList.get(i).getRelationshipChild1()) + ",");
+                    writer.append(checkNull(personList.get(i).getRelationshipChild2()) + ",");
+                    writer.append(checkNull(personList.get(i).getRelationshipChild3()) + ",");
+                    writer.append(checkNull(personList.get(i).getRelationshipChild4()) + ",");
+                    writer.append(checkNull(personList.get(i).getSexChild1()) + ",");
+                    writer.append(checkNull(personList.get(i).getSexChild2()) + ",");
+                    writer.append(checkNull(personList.get(i).getSexChild3()) + ",");
+                    writer.append(checkNull(personList.get(i).getSexChild4()) + ",,,"); //proceeds
+                    writer.append(checkNull(getDOBPart(personList.get(i).getEmployeeDate(),1)) + ",");
+                    writer.append(checkNull(personList.get(i).getFirstNameSpouse()) + ",,");
+                    writer.append(checkNull(personList.get(i).getLastNameSpouse()) + ",");
+                    writer.append(checkNull(getMonth(getDOBPart(personList.get(i).getBirtDateSpouse(),0))) + ",,,,");
+                    writer.append(checkNull(personList.get(i).getSexSpouse()) + ",");
+                    writer.append(checkNull(getDOBPart(personList.get(i).getEmployeeDate(),0)) + ",,0,1,,"); //upto visa
+                    writer.append(checkNull(getDOBPart(personList.get(i).getBirtDateChild1(),2)) + ",");
+                    writer.append(checkNull(getDOBPart(personList.get(i).getBirtDateChild2(),2)) + ",");
+                    writer.append(checkNull(getDOBPart(personList.get(i).getBirtDateChild3(),2)) + ",");
+                    writer.append(checkNull(getDOBPart(personList.get(i).getBirtDateChild4(),2)) + ",");
+                    
+                    
+                    /*writer.append(checkNull(personList.get(i).getDivision()) + ",");
                     writer.append(checkNull(personList.get(i).getCertNum()) + ",,");
                     //System.out.println("1" + personList.get(i).getBirthDate());
                     writer.append(checkNull(getDOBPart(personList.get(i).getBirthDate(),2) + ",,,,")); //upto maritalstatusseparated
@@ -137,6 +212,7 @@ public class PersonReader {
                     writer.append(checkNull(personList.get(i).getRelationshipChild2()) + ",,,,,"); //upto initialchild1
                     //System.out.println("20" + personList.get(i).getBirtDateChild3());
                     writer.append(checkNull(getDOBPart(personList.get(i).getBirtDateChild3(),2)) + ",,,,,,,"); //upto beneficiary2             
+                    */
                     writer.append('\n');
  
                 }
